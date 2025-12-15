@@ -1,0 +1,124 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+.container {
+    display: flex;
+    width: 100%;
+    height: 100vh;
+}
+
+/* SIDEBAR */
+.sidebar {
+    width: 200px;
+    background: #141414;
+    padding-top: 20px;
+}
+
+.sidebar ul {
+    list-style: none;
+}
+
+.sidebar li {
+    border-bottom: 1px solid #333;
+}
+
+.sidebar a {
+    display: block;
+    padding: 18px;
+    font-size: 17px;
+    color: #ffffff;
+    text-decoration: none;
+}
+
+.sidebar a:hover {
+    background: #333333;
+}
+
+.content {
+    flex: 1;
+    padding: 20px 40px;
+    background: #ffffff;
+    overflow-y: auto;
+}
+
+.logo {
+    display: flex;
+    align-items: center; /* thẳng hàng theo chiều dọc */
+    justify-content: center; /* căn giữa toàn bộ */
+    margin-top: 20px;
+}
+.logo-img {
+    width: 80px; /* chỉnh lại cho đúng kích thước mẫu */
+    margin-right: 10px;
+}
+.logo-text h1 {
+    font-size: 34px;
+    font-weight: bold;
+    color: #007ac9;
+    margin: 0;
+}
+.logo-text span {
+    display: block;
+    font-size: 14px;
+    color: #666;
+    margin-top: -5px; /* giống mẫu */
+}
+
+.sub-title {
+    text-align: center;
+    margin-top: 10px;
+    color: #777;
+}
+.sub-title {
+    margin-top: 10px;
+    font-size: 16px;
+    color: #777;
+}
+
+.main-title {
+    text-align: center;
+    margin: 20px 0 10px;
+}
+
+.desc {
+    text-align: center;
+    width: 70%;
+    margin: auto;
+    line-height: 1.5;
+}
+
+.three-box {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 40px;
+}
+
+.box {
+    width: 32%;
+}
+
+.box img.icon {
+    width: 70px;
+    float: left;
+    margin-right: 10px;
+}
+
+.box h3 {
+    margin-bottom: 10px;
+}
+
+.box p {
+    line-height: 1.5;
+}
+
+/* FOOTER */
+footer {
+    margin-top: 40px;
+    text-align: center;
+    color: #777;
+    font-size: 14px;
+}
