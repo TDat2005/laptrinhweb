@@ -1,4 +1,5 @@
 <?php
+require_once __DIR__ . '/../commons/db.php';
 class BenhNhan {
 
     // Lấy danh sách + tìm kiếm

@@ -1,4 +1,5 @@
 <?php
+require_once __DIR__ . '/../commons/db.php';
 class DieuTri {
 
     // Danh sách bệnh nhân đang điều trị + lọc

@@ -1,4 +1,6 @@
 <?php
+require_once __DIR__ . '/../commons/db.php';
+
 class NhapVien {
 
     // Bệnh nhân chưa nhập viện
@@ -11,37 +13,38 @@ class NhapVien {
             AND hs.trang_thai = 'dang_dieu_tri'
         WHERE hs.id IS NULL
         ";
-        return DB::conn()->query($sql)->fetch_all(MYSQLI_ASSOC);
+        $res = DB::conn()->query($sql);
+        return $res ? $res->fetch_all(MYSQLI_ASSOC) : [];
     }
 
     public static function khoa(): array {
-        return DB::conn()->query("SELECT * FROM khoa")->fetch_all(MYSQLI_ASSOC);
+        $res = DB::conn()->query("SELECT * FROM khoa");
+        return $res ? $res->fetch_all(MYSQLI_ASSOC) : [];
     }
 
     public static function phongByKhoa(int $id_khoa): array {
-        $stmt = DB::conn()->prepare(
-            "SELECT * FROM phong WHERE id_khoa=?"
-        );
+        $stmt = DB::conn()->prepare("SELECT * FROM phong WHERE id_khoa=?");
         $stmt->bind_param("i", $id_khoa);
         $stmt->execute();
-        return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+        $res = $stmt->get_result();
+        return $res ? $res->fetch_all(MYSQLI_ASSOC) : [];
     }
 
     public static function giuongTrong(int $id_phong): array {
         $stmt = DB::conn()->prepare(
-            "SELECT * FROM giuong
-             WHERE id_phong=? AND trang_thai='trong'"
+            "SELECT * FROM giuong WHERE id_phong=? AND trang_thai='trong'"
         );
         $stmt->bind_param("i", $id_phong);
         $stmt->execute();
-        return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+        $res = $stmt->get_result();
+        return $res ? $res->fetch_all(MYSQLI_ASSOC) : [];
     }
 
     public static function bacSi(): array {
-        return DB::conn()->query(
-            "SELECT id, full_name
-             FROM users WHERE role='doctor'"
-        )->fetch_all(MYSQLI_ASSOC);
+        $res = DB::conn()->query(
+            "SELECT id, full_name FROM users WHERE role='doctor'"
+        );
+        return $res ? $res->fetch_all(MYSQLI_ASSOC) : [];
     }
 
     // Lưu hồ sơ nhập viện
