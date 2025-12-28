@@ -33,6 +33,7 @@
     <th>Giường</th>
     <th>Bác sĩ phụ trách</th>
     <th>Ngày nhập viện</th>
+    <th>Hành động</th>
 </tr>
 
 <?php foreach ($data as $row): ?>
@@ -43,6 +44,9 @@
     <td><?= e($row['ma_giuong']) ?></td>
     <td><?= e($row['bac_si'] ?? 'Chưa phân công') ?></td>
     <td><?= e($row['ngay_nhap']) ?></td>
+    <td>
+        <a href="index.php?c=dieutri&a=detail&id=<?= (int)$row['id'] ?>">Xem chi tiết</a>
+    </td>
 </tr>
 <?php endforeach; ?>
 </table>

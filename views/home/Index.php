@@ -21,7 +21,12 @@
         <li><a href="<?= e(base_url('index.php?c=benhnhan&a=list')) ?>">Quản lý bệnh nhân</a> </li>
         <li><a href="<?= e(base_url('index.php?c=nhapvien&a=add')) ?>">Tiếp nhận / Nhập viện</a> </li>
         <li><a href="<?= e(base_url('index.php?c=dieutri&a=list')) ?>">Bệnh nhân đang điều trị</a> </li>
+        <li><a href="<?= e(base_url('index.php?c=xuatvien&a=list')) ?>">Xuất viện</a> </li>
+        <?php if ($user['role'] === 'admin'): ?>
+        <li><a href="<?= e(base_url('index.php?c=thongke&a=index')) ?>">Thống kê & Báo cáo</a> </li>
+        <?php endif; ?>
     </ul>
+
 </body>
 
 </html>

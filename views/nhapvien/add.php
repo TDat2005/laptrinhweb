@@ -2,40 +2,40 @@
 
 <form method="post">
 
-Bệnh nhân:
-<select name="id_benh_nhan" required>
-    <?php foreach ($benhnhan as $bn): ?>
-    <option value="<?= $bn['id'] ?>">
-        <?= e($bn['ho_ten']) ?> (<?= e($bn['ma_bn']) ?>)
-    </option>
-    <?php endforeach; ?>
-</select><br><br>
+    Bệnh nhân:
+    <select name="id_benh_nhan" required>
+        <?php foreach ($benhnhan as $bn): ?>
+        <option value="<?= $bn['id'] ?>">
+            <?= e($bn['ho_ten']) ?> (<?= e($bn['ma_bn']) ?>)
+        </option>
+        <?php endforeach; ?>
+    </select><br><br>
 
-Khoa:
-<select id="khoa" name="id_khoa" required></select><br><br>
+    Khoa:
+    <select id="khoa" name="id_khoa" required></select><br><br>
 
-Phòng:
-<select id="phong" name="id_phong" required></select><br><br>
+    Phòng:
+    <select id="phong" name="id_phong" required></select><br><br>
 
-Giường trống:
-<select id="giuong" name="id_giuong" required></select><br><br>
+    Giường trống:
+    <select id="giuong" name="id_giuong" required></select><br><br>
 
-Ngày giờ nhập viện:
-<input type="datetime-local" name="ngay_nhap" required><br><br>
+    Ngày giờ nhập viện:
+    <input type="datetime-local" name="ngay_nhap" required><br><br>
 
-Bác sĩ phụ trách:
-<select name="bac_si_phu_trach">
-    <?php foreach ($bacsi as $bs): ?>
-    <option value="<?= $bs['id'] ?>">
-        <?= e($bs['full_name']) ?>
-    </option>
-    <?php endforeach; ?>
-</select><br><br>
+    Bác sĩ phụ trách:
+    <select name="bac_si_phu_trach">
+        <?php foreach ($bacsi as $bs): ?>
+        <option value="<?= $bs['id'] ?>">
+            <?= e($bs['full_name']) ?>
+        </option>
+        <?php endforeach; ?>
+    </select><br><br>
 
-Chẩn đoán ban đầu:
-<textarea name="chan_doan_ban_dau"></textarea><br><br>
+    Chẩn đoán ban đầu:
+    <textarea name="chan_doan_ban_dau"></textarea><br><br>
 
-<button>Lưu hồ sơ nhập viện</button>
+    <button>Lưu hồ sơ nhập viện</button>
 
 </form>
 
