@@ -1,107 +1,87 @@
+<?php /** @var array $errors */ /** @var array $old */ ?>
 <!doctype html>
 <html lang="vi">
 
 <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Thêm tài khoản</title>
-    <style>
-    body {
-        font-family: system-ui, Arial;
-        padding: 18px;
-    }
-
-    .box {
-        max-width: 520px;
-        border: 1px solid #ddd;
-        border-radius: 12px;
-        padding: 16px;
-    }
-
-    input,
-    select {
-        width: 100%;
-        padding: 10px;
-        border: 1px solid #ddd;
-        border-radius: 10px;
-    }
-
-    label {
-        display: block;
-        margin: 10px 0 6px;
-    }
-
-    .err {
-        padding: 10px;
-        border: 1px solid #fecaca;
-        background: #fff1f2;
-        border-radius: 10px;
-        margin-bottom: 10px;
-    }
-
-    button {
-        padding: 10px 12px;
-        border: 0;
-        border-radius: 10px;
-        background: #22c55e;
-        color: #052e12;
-        font-weight: 700;
-        cursor: pointer;
-    }
-
-    a {
-        color: #2563eb;
-        text-decoration: none;
-    }
-    </style>
+    <link rel="stylesheet" href="<?= e(base_url('public/css/admin.css')) ?>">
 </head>
 
 <body>
 
-    <h2>Thêm tài khoản</h2>
+    <div class="page">
+        <div class="page-head">
+            <div>
+                <div class="page-title">Thêm tài khoản</div>
+                <div class="page-sub">Tạo mới người dùng hệ thống</div>
+            </div>
+            <div class="actions">
+                <a class="btn btn-outline" href="<?= e(base_url('index.php?c=user&a=list')) ?>">Quay lại</a>
+            </div>
+        </div>
 
-    <div class="box">
         <?php if (!empty($errors)): ?>
-        <div class="err">
+        <div class="alert alert-danger">
             <b>Lỗi:</b>
-            <ul>
+            <ul style="margin:8px 0 0 18px;">
                 <?php foreach ($errors as $e): ?><li><?= e($e) ?></li><?php endforeach; ?>
             </ul>
         </div>
         <?php endif; ?>
 
-        <form method="post" action="<?= e(base_url('index.php?c=user&a=add')) ?>">
-            <label>Username</label>
-            <input name="username" value="<?= e($old['username']) ?>" required>
+        <div class="panel">
+            <form method="post" action="<?= e(base_url('index.php?c=user&a=add')) ?>">
+                <div class="form-grid">
+                    <div class="field">
+                        <label>Username</label>
+                        <input class="input" name="username" value="<?= e($old['username'] ?? '') ?>" required>
+                    </div>
 
-            <label>Họ tên</label>
-            <input name="full_name" value="<?= e($old['full_name']) ?>" required>
+                    <div class="field">
+                        <label>Họ tên</label>
+                        <input class="input" name="full_name" value="<?= e($old['full_name'] ?? '') ?>" required>
+                    </div>
 
-            <label>Role</label>
-            <select name="role">
-                <?php
-        $roles = ['admin'=>'Admin','doctor'=>'Doctor','nurse'=>'Nurse','reception'=>'Reception'];
-        foreach ($roles as $k=>$v):
-      ?>
-                <option value="<?= e($k) ?>" <?= $old['role']===$k?'selected':'' ?>><?= e($v) ?></option>
-                <?php endforeach; ?>
-            </select>
+                    <div class="field">
+                        <label>Role</label>
+                        <select class="select" name="role">
+                            <?php
+              $roles = ['admin'=>'Admin','doctor'=>'Doctor','nurse'=>'Nurse','reception'=>'Reception'];
+              $oldRole = $old['role'] ?? 'reception';
+              foreach ($roles as $k=>$v):
+            ?>
+                            <option value="<?= e($k) ?>" <?= $oldRole===$k?'selected':'' ?>><?= e($v) ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
 
-            <label>Trạng thái</label>
-            <select name="status">
-                <option value="1" <?= (int)$old['status']===1?'selected':'' ?>>Active</option>
-                <option value="0" <?= (int)$old['status']===0?'selected':'' ?>>Locked</option>
-            </select>
+                    <div class="field">
+                        <label>Trạng thái</label>
+                        <?php $st = (int)($old['status'] ?? 1); ?>
+                        <select class="select" name="status">
+                            <option value="1" <?= $st===1?'selected':'' ?>>Active</option>
+                            <option value="0" <?= $st===0?'selected':'' ?>>Locked</option>
+                        </select>
+                    </div>
 
-            <label>Mật khẩu</label>
-            <input type="password" name="password" required>
+                    <div class="field">
+                        <label>Mật khẩu</label>
+                        <input class="input" type="password" name="password" required>
+                    </div>
 
-            <label>Xác nhận mật khẩu</label>
-            <input type="password" name="confirm_password" required>
+                    <div class="field">
+                        <label>Xác nhận mật khẩu</label>
+                        <input class="input" type="password" name="confirm_password" required>
+                    </div>
 
-            <br><br>
-            <button type="submit">Tạo tài khoản</button>
-            &nbsp; <a href="<?= e(base_url('index.php?c=user&a=list')) ?>">Quay lại</a>
-        </form>
+                    <div class="full actions" style="justify-content:flex-end;margin-top:6px;">
+                        <button class="btn" type="submit">Tạo tài khoản</button>
+                    </div>
+                </div>
+            </form>
+        </div>
     </div>
 
 </body>

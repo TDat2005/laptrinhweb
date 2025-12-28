@@ -1,84 +1,55 @@
+<?php /** @var array $errors */ /** @var array $user */ ?>
 <!doctype html>
 <html lang="vi">
 
 <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Đổi mật khẩu</title>
-    <style>
-    body {
-        font-family: system-ui, Arial;
-        padding: 18px;
-    }
-
-    .box {
-        max-width: 520px;
-        border: 1px solid #ddd;
-        border-radius: 12px;
-        padding: 16px;
-    }
-
-    input {
-        width: 100%;
-        padding: 10px;
-        border: 1px solid #ddd;
-        border-radius: 10px;
-    }
-
-    label {
-        display: block;
-        margin: 10px 0 6px;
-    }
-
-    .err {
-        padding: 10px;
-        border: 1px solid #fecaca;
-        background: #fff1f2;
-        border-radius: 10px;
-        margin-bottom: 10px;
-    }
-
-    button {
-        padding: 10px 12px;
-        border: 0;
-        border-radius: 10px;
-        background: #22c55e;
-        color: #052e12;
-        font-weight: 700;
-        cursor: pointer;
-    }
-
-    a {
-        color: #2563eb;
-        text-decoration: none;
-    }
-    </style>
+    <link rel="stylesheet" href="<?= e(base_url('public/css/admin.css')) ?>">
 </head>
 
 <body>
 
-    <h2>Đổi mật khẩu: <?= e($user['username']) ?></h2>
+    <div class="page">
+        <div class="page-head">
+            <div>
+                <div class="page-title">Đổi mật khẩu</div>
+                <div class="page-sub">Tài khoản: <?= e($user['username']) ?></div>
+            </div>
+            <div class="actions">
+                <a class="btn btn-outline" href="<?= e(base_url('index.php?c=user&a=list')) ?>">Quay lại</a>
+            </div>
+        </div>
 
-    <div class="box">
         <?php if (!empty($errors)): ?>
-        <div class="err">
+        <div class="alert alert-danger">
             <b>Lỗi:</b>
-            <ul>
+            <ul style="margin:8px 0 0 18px;">
                 <?php foreach ($errors as $e): ?><li><?= e($e) ?></li><?php endforeach; ?>
             </ul>
         </div>
         <?php endif; ?>
 
-        <form method="post" action="<?= e(base_url('index.php?c=user&a=reset_password&id='.(int)$user['id'])) ?>">
-            <label>Mật khẩu mới</label>
-            <input type="password" name="password" required>
+        <div class="panel">
+            <form method="post" action="<?= e(base_url('index.php?c=user&a=reset_password&id='.(int)$user['id'])) ?>">
+                <div class="form-grid">
+                    <div class="field">
+                        <label>Mật khẩu mới</label>
+                        <input class="input" type="password" name="password" required>
+                    </div>
 
-            <label>Xác nhận mật khẩu</label>
-            <input type="password" name="confirm_password" required>
+                    <div class="field">
+                        <label>Xác nhận mật khẩu</label>
+                        <input class="input" type="password" name="confirm_password" required>
+                    </div>
 
-            <br><br>
-            <button type="submit">Cập nhật mật khẩu</button>
-            &nbsp; <a href="<?= e(base_url('index.php?c=user&a=list')) ?>">Quay lại</a>
-        </form>
+                    <div class="full actions" style="justify-content:flex-end;margin-top:6px;">
+                        <button class="btn" type="submit">Cập nhật mật khẩu</button>
+                    </div>
+                </div>
+            </form>
+        </div>
     </div>
 
 </body>
