@@ -1,0 +1,174 @@
+:root{
+  --primary:#0ea5a4;     /* xanh y tế */
+  --primary-soft:#e6fffb;
+  --bg:#f7f9fc;
+  --white:#ffffff;
+  --text:#0f172a;
+  --muted:#64748b;
+  --border:#e5e7eb;
+  --radius:12px;
+}
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family: "Segoe UI", Arial, sans-serif;
+}
+
+body{
+  background:var(--bg);
+  color:var(--text);
+}
+
+/* ===== Layout ===== */
+.shell{
+  min-height:100vh;
+  display:flex;
+}
+
+/* ===== Sidebar (SÁNG) ===== */
+.sidebar{
+  width:260px;
+  background:var(--white);
+  border-right:1px solid var(--border);
+  padding:18px 14px;
+}
+
+.brand{
+  padding:12px;
+  border-radius:var(--radius);
+  background:var(--primary-soft);
+  margin-bottom:16px;
+}
+
+.brand .title{
+  font-weight:700;
+  font-size:15px;
+  color:var(--primary);
+}
+
+.brand .sub{
+  font-size:12px;
+  color:var(--muted);
+  margin-top:4px;
+}
+
+.nav{
+  list-style:none;
+}
+
+.nav li{
+  margin-bottom:6px;
+}
+
+.nav a{
+  display:block;
+  padding:10px 12px;
+  text-decoration:none;
+  color:var(--text);
+  border-radius:10px;
+  font-size:14px;
+}
+
+.nav a:hover{
+  background:var(--primary-soft);
+  color:var(--primary);
+}
+
+/* ===== Content ===== */
+.content{
+  flex:1;
+  display:flex;
+  flex-direction:column;
+}
+
+/* ===== Topbar ===== */
+.topbar{
+  background:var(--white);
+  border-bottom:1px solid var(--border);
+  padding:14px 20px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.topbar .title{
+  font-size:16px;
+  font-weight:600;
+}
+
+.topbar .sub{
+  font-size:12px;
+  color:var(--muted);
+}
+
+.user-box{
+  font-size:13px;
+  color:var(--muted);
+}
+
+/* ===== Main ===== */
+.main{
+  padding:20px;
+}
+
+/* ===== Cards ===== */
+.card{
+  background:var(--white);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  padding:16px;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:14px;
+  margin-top:14px;
+}
+
+.card .label{
+  font-size:12px;
+  color:var(--muted);
+}
+
+.card .value{
+  font-size:16px;
+  font-weight:600;
+  margin-top:6px;
+}
+
+.card a{
+  display:inline-block;
+  margin-top:12px;
+  text-decoration:none;
+  color:var(--primary);
+  font-size:13px;
+}
+
+.card a:hover{
+  text-decoration:underline;
+}
+
+/* ===== Buttons ===== */
+.btn{
+  padding:8px 12px;
+  background:var(--primary);
+  color:#fff;
+  border:none;
+  border-radius:8px;
+  font-size:13px;
+  cursor:pointer;
+}
+
+.btn-outline{
+  background:#fff;
+  color:var(--primary);
+  border:1px solid var(--primary);
+}
+
+@media(max-width:900px){
+  .sidebar{display:none;}
+  .grid{grid-template-columns:1fr;}
+}

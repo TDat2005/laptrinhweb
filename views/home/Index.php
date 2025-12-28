@@ -4,28 +4,60 @@
 
 <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Dashboard</title>
+    <link rel="stylesheet" href="<?= e(base_url('public/css/admin.css')) ?>">
+
 </head>
 
 <body>
-    <h2>Xin chào, <?= e($user['full_name']) ?> (<?= e($user['role']) ?>)</h2>
+    <div class="shell">
 
-    <ul>
-        <li><a href="<?= e(base_url('index.php?c=auth&a=logout')) ?>">Đăng xuất</a></li>
+        <aside class="sidebar">
+            <div class="brand">
+                <div class="title">CLINIC ADMIN</div>
+                <div class="sub">Quản lý nội trú</div>
+            </div>
 
-        <li><a href="<?= e(base_url('index.php?c=user&a=list')) ?>">Quản lý tài khoản</a></li>
-        <li><a href="<?= e(base_url('index.php?c=khoa&a=list')) ?>">Quản lý khoa</a></li>
-        <li><a href="<?= e(base_url('index.php?c=phong&a=list')) ?>">Quản lý phòng</a></li>
-        <li><a href="<?= e(base_url('index.php?c=giuong&a=list')) ?>">Quản lý giường</a></li>
-        <li><a href="<?= e(base_url('index.php?c=giuong&a=available')) ?>">Giường trống</a></li>
-        <li><a href="<?= e(base_url('index.php?c=benhnhan&a=list')) ?>">Quản lý bệnh nhân</a> </li>
-        <li><a href="<?= e(base_url('index.php?c=nhapvien&a=add')) ?>">Tiếp nhận / Nhập viện</a> </li>
-        <li><a href="<?= e(base_url('index.php?c=dieutri&a=list')) ?>">Bệnh nhân đang điều trị</a> </li>
-        <li><a href="<?= e(base_url('index.php?c=xuatvien&a=list')) ?>">Xuất viện</a> </li>
-        <?php if ($user['role'] === 'admin'): ?>
-        <li><a href="<?= e(base_url('index.php?c=thongke&a=index')) ?>">Thống kê & Báo cáo</a> </li>
-        <?php endif; ?>
-    </ul>
+            <ul class="nav">
+                <li><a href="<?= e(base_url('index.php?c=user&a=list')) ?>">Quản lý tài khoản</a></li>
+                <li><a href="<?= e(base_url('index.php?c=khoa&a=list')) ?>">Quản lý khoa</a></li>
+                <li><a href="<?= e(base_url('index.php?c=phong&a=list')) ?>">Quản lý phòng</a></li>
+                <li><a href="<?= e(base_url('index.php?c=giuong&a=list')) ?>">Quản lý giường</a></li>
+
+
+                <li><a href="<?= e(base_url('index.php?c=benhnhan&a=list')) ?>">Bệnh nhân</a></li>
+                <li><a href="<?= e(base_url('index.php?c=nhapvien&a=add')) ?>">Nhập viện</a></li>
+                <li><a href="<?= e(base_url('index.php?c=giuong&a=available')) ?>">Giường trống</a></li>
+
+                <li class="nav-sep"></li>
+                <li><a href="<?= e(base_url('index.php?c=auth&a=logout')) ?>">Đăng xuất</a></li>
+            </ul>
+        </aside>
+
+        <div class="content">
+            <header class="topbar">
+                <div>
+                    <div class="title">Xin chào, <?= e($user['full_name']) ?></div>
+                    <div class="sub">Hệ thống quản lý bệnh nhân nội trú</div>
+                </div>
+                <div class="user-box"><?= e($user['role']) ?></div>
+            </header>
+
+            <main class="main">
+                <div class="card">
+                    <div class="label">Dashboard</div>
+                    <div class="value">Chọn chức năng ở menu bên trái để thao tác.</div>
+                </div>
+            </main>
+        </div>
+
+    </div>
+
+    </main>
+    </div>
+
+    </div>
 
 </body>
 
