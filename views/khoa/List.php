@@ -1,4 +1,6 @@
-<?php /** @var array $khoas */ /** @var string $msg */ ?>
+<?php /** @var array $khoas */ /** @var string $msg */
+require __DIR__ . "/../layout/AdminHeader.php";
+ ?>
 <!doctype html>
 <html lang="vi">
 

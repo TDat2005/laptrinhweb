@@ -1,42 +1,68 @@
-<!DOCTYPE html>
+<?php
+/** layout header dùng chung cho mọi trang admin
+ *  $user: array (current logged-in user)
+ *  $pageTitle: string (tiêu đề trang)
+ *  $pageSub: string (mô tả ngắn)
+ */
+?>
+<!doctype html>
 <html lang="vi">
 
 <head>
-    <meta charset="UTF-8">
-    <title>Quản lý nội trú</title>
-    <link rel="stylesheet" href="/public/css/admin.css">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title><?= e($pageTitle ?? 'CLINIC ADMIN') ?></title>
+    <link rel="stylesheet" href="<?= e(base_url('public/css/admin.css')) ?>">
 </head>
 
 <body>
 
-    <div class="admin-wrapper">
-
+    <div class="shell">
         <!-- SIDEBAR -->
-        <div class="sidebar">
-            <h2>ADMIN</h2>
-            <ul>
-                <li><a href="/home">Trang chủ</a></li>
-                <li><a href="/user">Quản lý tài khoản</a></li>
-                <li><a href="/khoa">Quản lý khoa</a></li>
-                <li><a href="/phong">Quản lý phòng</a></li>
-                <li><a href="/giuong">Quản lý giường</a></li>
-                <li><a href="/benhnhan">Bệnh nhân</a></li>
-                <li><a href="/nhapvien">Nhập viện</a></li>
-                <li><a href="/dieutri">Điều trị</a></li>
-                <li><a href="/xuatvien">Xuất viện</a></li>
-                <li><a href="/thongke">Thống kê</a></li>
-                <li><a href="/auth/logout">Đăng xuất</a></li>
+        <aside class="sidebar">
+            <div class="brand">
+                <div class="title">CLINIC ADMIN</div>
+                <div class="sub">Quản lý nội trú</div>
+            </div>
+
+            <ul class="nav">
+                <li><a href="<?= e(base_url('index.php?c=user&a=list')) ?>">Quản lý tài khoản</a></li>
+                <li><a href="<?= e(base_url('index.php?c=khoa&a=list')) ?>">Quản lý khoa</a></li>
+                <li><a href="<?= e(base_url('index.php?c=phong&a=list')) ?>">Quản lý phòng</a></li>
+                <li><a href="<?= e(base_url('index.php?c=giuong&a=list')) ?>">Quản lý giường</a></li>
+
+                <li class="nav-sep"></li>
+                <li><a href="<?= e(base_url('index.php?c=benhnhan&a=list')) ?>">Bệnh nhân</a></li>
+                <li><a href="<?= e(base_url('index.php?c=nhapvien&a=add')) ?>">Nhập viện</a></li>
+                <li><a href="<?= e(base_url('index.php?c=giuong&a=available')) ?>">Giường trống</a></li>
+                <li><a href="<?= e(base_url('index.php?c=dieutri&a=list')) ?>">Điều trị</a></li>
+                <li><a href="<?= e(base_url('index.php?c=xuatvien&a=list')) ?>">Xuất viện</a></li>
+
+                <?php if (!empty($user) && ($user['role'] ?? '') === 'admin'): ?>
+                <li class="nav-sep"></li>
+                <li><a href="<?= e(base_url('index.php?c=thongke&a=index')) ?>">Thống kê & Báo cáo</a></li>
+                <?php endif; ?>
+
+                <li class="nav-sep"></li>
+                <li><a href="<?= e(base_url('index.php?c=auth&a=logout')) ?>">Đăng xuất</a></li>
             </ul>
-        </div>
+        </aside>
 
         <!-- CONTENT -->
         <div class="content">
-
-            <div class="topbar">
-                <div>Hệ thống quản lý bệnh nhân nội trú</div>
-                <div class="user">
-                    Xin chào, <?= $_SESSION['user']['full_name'] ?? 'Admin' ?>
+            <header class="topbar">
+                <div>
+                    <div class="title"><?= e($pageTitle ?? 'CLINIC ADMIN') ?></div>
+                    <?php if (!empty($pageSub)): ?>
+                    <div class="sub"><?= e($pageSub) ?></div>
+                    <?php else: ?>
+                    <div class="sub">Hệ thống quản lý bệnh nhân nội trú</div>
+                    <?php endif; ?>
                 </div>
-            </div>
 
-            <div class="main">
+                <div class="user-box">
+                    <?= e($user['role'] ?? '') ?>
+                </div>
+            </header>
+
+            <main class="main">

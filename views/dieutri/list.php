@@ -1,56 +1,92 @@
-<h2>DANH SÁCH BỆNH NHÂN ĐANG ĐIỀU TRỊ</h2>
+<?php require __DIR__ . "/../layout/AdminHeader.php"; ?>
 
-<form method="get">
-    <input type="hidden" name="c" value="dieutri">
-    <input type="hidden" name="a" value="list">
+<div class="page">
 
-    Khoa:
-    <select id="khoa" name="id_khoa">
-        <option value="">-- Tất cả --</option>
-        <?php foreach ($khoa as $k): ?>
-        <option value="<?= $k['id'] ?>"
-            <?= ($filter['id_khoa'] ?? '') == $k['id'] ? 'selected' : '' ?>>
-            <?= e($k['ten_khoa']) ?>
-        </option>
-        <?php endforeach; ?>
-    </select>
+    <!-- HEADER -->
+    <div class="page-head">
+        <div>
+            <div class="page-title">Danh sách bệnh nhân đang điều trị</div>
+            <div class="page-sub">
+                Thông tin bệnh nhân nội trú hiện tại theo khoa / phòng
+            </div>
+        </div>
+    </div>
 
-    Phòng:
-    <select id="phong" name="id_phong">
-        <option value="">-- Tất cả --</option>
-    </select>
+    <!-- PANEL FILTER -->
+    <div class="panel">
 
-    <button>Lọc</button>
-</form>
+        <form method="get" class="actions">
+            <input type="hidden" name="c" value="dieutri">
+            <input type="hidden" name="a" value="list">
 
-<br>
+            <div class="field">
+                <label>Khoa</label>
+                <select id="khoa" name="id_khoa" class="select">
+                    <option value="">-- Tất cả --</option>
+                    <?php foreach ($khoa as $k): ?>
+                    <option value="<?= $k['id'] ?>" <?= ($filter['id_khoa'] ?? '') == $k['id'] ? 'selected' : '' ?>>
+                        <?= e($k['ten_khoa']) ?>
+                    </option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
 
-<table border="1" cellpadding="6">
-<tr>
-    <th>Tên bệnh nhân</th>
-    <th>Khoa</th>
-    <th>Phòng</th>
-    <th>Giường</th>
-    <th>Bác sĩ phụ trách</th>
-    <th>Ngày nhập viện</th>
-    <th>Hành động</th>
-</tr>
+            <div class="field">
+                <label>Phòng</label>
+                <select id="phong" name="id_phong" class="select">
+                    <option value="">-- Tất cả --</option>
+                </select>
+            </div>
 
-<?php foreach ($data as $row): ?>
-<tr>
-    <td><?= e($row['ho_ten']) ?></td>
-    <td><?= e($row['ten_khoa']) ?></td>
-    <td><?= e($row['ten_phong']) ?></td>
-    <td><?= e($row['ma_giuong']) ?></td>
-    <td><?= e($row['bac_si'] ?? 'Chưa phân công') ?></td>
-    <td><?= e($row['ngay_nhap']) ?></td>
-    <td>
-        <a href="index.php?c=dieutri&a=detail&id=<?= (int)$row['id'] ?>">Xem chi tiết</a>
-    </td>
-</tr>
-<?php endforeach; ?>
-</table>
+            <div style="align-self:flex-end;">
+                <button class="btn">Lọc dữ liệu</button>
+            </div>
+        </form>
 
+    </div>
+
+    <!-- TABLE -->
+    <div class="tbl-wrap" style="margin-top:14px;">
+        <table class="tbl">
+            <thead>
+                <tr>
+                    <th>Tên bệnh nhân</th>
+                    <th>Khoa</th>
+                    <th>Phòng</th>
+                    <th>Giường</th>
+                    <th>Bác sĩ phụ trách</th>
+                    <th>Ngày nhập viện</th>
+                    <th>Hành động</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <?php foreach ($data as $row): ?>
+                <tr>
+                    <td><?= e($row['ho_ten']) ?></td>
+                    <td><?= e($row['ten_khoa']) ?></td>
+                    <td><?= e($row['ten_phong']) ?></td>
+                    <td><?= e($row['ma_giuong']) ?></td>
+                    <td>
+                        <?= $row['bac_si']
+              ? e($row['bac_si'])
+              : '<span class="tag tag-off">Chưa phân công</span>' ?>
+                    </td>
+                    <td><?= e($row['ngay_nhap']) ?></td>
+                    <td>
+                        <a class="btn-outline" href="index.php?c=dieutri&a=detail&id=<?= (int)$row['id'] ?>">
+                            Chi tiết
+                        </a>
+                    </td>
+                </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+<!-- JS lọc phòng theo khoa (GIỮ NGUYÊN LOGIC) -->
 <script>
 const phongSelect = document.getElementById('phong');
 const khoaSelect = document.getElementById('khoa');
@@ -65,11 +101,12 @@ khoaSelect.onchange = () => {
     fetch(`index.php?c=dieutri&a=phong&id_khoa=${khoaSelect.value}`)
         .then(r => r.json())
         .then(data => {
-            phongSelect.innerHTML = `<option value="">-- Tất cả --</option>` +
+            phongSelect.innerHTML =
+                `<option value="">-- Tất cả --</option>` +
                 data.map(p =>
                     `<option value="${p.id}" ${p.id == selectedPhong ? 'selected' : ''}>
-                        ${p.ten_phong}
-                     </option>`
+             ${p.ten_phong}
+           </option>`
                 ).join('');
         });
 };

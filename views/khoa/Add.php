@@ -1,4 +1,6 @@
-<?php /** @var array $errors */ /** @var array $old */ ?>
+<?php /** @var array $errors */ /** @var array $old */ 
+require __DIR__ . "/../layout/AdminHeader.php";
+?>
 <!doctype html>
 <html lang="vi">
 

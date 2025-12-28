@@ -264,3 +264,181 @@ body{
   .form-grid{grid-template-columns:1fr;}
   .tbl{min-width:760px}
 }
+/* =======================
+   CLINIC DASHBOARD (vibe Booking Clinic)
+======================= */
+.hero{
+  position:relative;
+  border:1px solid var(--border);
+  background: linear-gradient(180deg, rgba(14,165,164,.10), rgba(59,130,246,.06));
+  border-radius:18px;
+  padding:18px;
+  overflow:hidden;
+}
+.hero::before{
+  content:"";
+  position:absolute; inset:0;
+  background:
+    radial-gradient(700px 220px at 20% 0%, rgba(14,165,164,.18), transparent 60%),
+    radial-gradient(700px 240px at 80% 40%, rgba(59,130,246,.14), transparent 60%);
+  pointer-events:none;
+}
+.hero > *{position:relative; z-index:1;}
+
+.hero-top{display:flex;justify-content:space-between;gap:14px;align-items:flex-start;flex-wrap:wrap}
+.hero h1{margin:0;font-size:20px;font-weight:800;letter-spacing:.2px}
+.hero p{margin:6px 0 0;color:var(--muted);font-size:13.5px;line-height:1.55;max-width:70ch}
+
+.search{
+  display:flex; gap:10px; align-items:center;
+  background:#fff;
+  border:1px solid var(--border);
+  border-radius:999px;
+  padding:10px 12px;
+  min-width:320px;
+}
+.search input{
+  border:0; outline:0; width:100%;
+  font-size:13.5px;
+  background:transparent;
+}
+.search .chip{
+  padding:6px 10px;
+  border-radius:999px;
+  background:var(--primary-soft);
+  color:var(--primary);
+  font-size:12px;
+  font-weight:700;
+  border:1px solid rgba(14,165,164,.18);
+}
+
+.quickbar{
+  margin-top:14px;
+  display:grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap:10px;
+}
+.qitem{
+  background:#fff;
+  border:1px solid var(--border);
+  border-radius:14px;
+  padding:12px 10px;
+  text-decoration:none;
+  color:var(--text);
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+  align-items:center;
+  text-align:center;
+}
+.qicon{
+  width:36px;height:36px;border-radius:12px;
+  display:flex;align-items:center;justify-content:center;
+  background:rgba(14,165,164,.10);
+  border:1px solid rgba(14,165,164,.20);
+  color:var(--primary);
+  font-weight:900;
+}
+.qitem .t{font-size:12.5px;font-weight:700;color:#0f172a}
+.qitem:hover{transform:translateY(-1px);filter:brightness(.99);}
+
+.section{margin-top:16px;}
+.section-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px;}
+.section-title{font-size:14px;font-weight:900;color:#0f172a}
+.section-more{font-size:12.5px;color:var(--primary);text-decoration:none;font-weight:800}
+.section-more:hover{text-decoration:underline}
+
+.cards{
+  display:grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap:12px;
+}
+.cardx{
+  background:#fff;
+  border:1px solid var(--border);
+  border-radius:16px;
+  overflow:hidden;
+  text-decoration:none;
+  color:var(--text);
+}
+.cardx .thumb{
+  height:110px;
+  background: linear-gradient(135deg, rgba(14,165,164,.18), rgba(59,130,246,.10));
+  border-bottom:1px solid var(--border);
+}
+.cardx .body{padding:12px}
+.cardx .name{font-weight:900;font-size:13.5px;color:#0f172a;margin:0 0 6px}
+.cardx .meta{font-size:12.5px;color:var(--muted);line-height:1.45;margin:0}
+.cardx:hover{transform:translateY(-1px);filter:brightness(.99);}
+
+@media (max-width: 1200px){
+  .quickbar{grid-template-columns: repeat(3, 1fr);}
+  .cards{grid-template-columns: repeat(2, 1fr);}
+}
+@media (max-width: 720px){
+  .search{min-width:unset;width:100%}
+  .cards{grid-template-columns:1fr;}
+}
+/* ====== CLINIC BANNER ====== */
+.banner{
+  position:relative;
+  border-radius:18px;
+  overflow:hidden;
+  border:1px solid var(--border);
+  height:220px;
+  margin-bottom:16px;
+}
+
+.banner-bg{
+  position:absolute;
+  inset:0;
+  background:
+    linear-gradient(180deg, rgba(15,23,42,.55), rgba(15,23,42,.75)),
+    url("../images/clinic-banner.jpg") center/cover no-repeat;
+}
+
+.banner-content{
+  position:relative;
+  z-index:2;
+  height:100%;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  padding:26px;
+  color:#fff;
+}
+
+.banner h1{
+  margin:0;
+  font-size:26px;
+  font-weight:900;
+}
+
+.banner p{
+  margin:8px 0 0;
+  max-width:640px;
+  font-size:14.5px;
+  color:#e5e7eb;
+}
+
+.banner-actions{
+  margin-top:14px;
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+}
+
+.banner-actions a{
+  padding:10px 14px;
+  border-radius:999px;
+  background:#22c55e;
+  color:#052e12;
+  font-weight:800;
+  font-size:13px;
+  text-decoration:none;
+}
+.banner-actions a.alt{
+  background:rgba(255,255,255,.15);
+  color:#fff;
+  border:1px solid rgba(255,255,255,.25);
+}

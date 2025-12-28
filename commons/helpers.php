@@ -30,3 +30,15 @@ function render(string $viewPath, array $data = []): void {
     }
     require $file;
 }
+function excelDateToMysql($value) {
+    if (empty($value)) return null;
+
+    // Excel date (numeric)
+    if (is_numeric($value)) {
+        return date('Y-m-d', PHPExcel_Shared_Date::ExcelToPHP($value));
+    }
+
+    // Text date
+    $ts = strtotime(str_replace('/', '-', $value));
+    return $ts ? date('Y-m-d', $ts) : null;
+}

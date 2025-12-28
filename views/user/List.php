@@ -1,4 +1,6 @@
-<?php /** @var array $users */ /** @var string $msg */ ?>
+<?php /** @var array $users */ /** @var string $msg */ 
+require __DIR__ . "/../layout/AdminHeader.php";
+?>
 <!doctype html>
 <html lang="vi">
 
@@ -88,3 +90,4 @@
 </body>
 
 </html>
+<?php require __DIR__ . "/../layout/AdminFooter.php"; ?>

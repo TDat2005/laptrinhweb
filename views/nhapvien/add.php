@@ -1,74 +1,90 @@
-<h2>TIẾP NHẬN BỆNH NHÂN NỘI TRÚ</h2>
+<?php require __DIR__ . "/../layout/AdminHeader.php"; ?>
 
-<form method="post">
+<div class="page">
 
-    Bệnh nhân:
-    <select name="id_benh_nhan" required>
-        <?php foreach ($benhnhan as $bn): ?>
-        <option value="<?= $bn['id'] ?>">
-            <?= e($bn['ho_ten']) ?> (<?= e($bn['ma_bn']) ?>)
-        </option>
-        <?php endforeach; ?>
-    </select><br><br>
+    <!-- HEADER -->
+    <div class="page-head">
+        <div>
+            <div class="page-title">Tiếp nhận bệnh nhân nội trú</div>
+            <div class="page-sub">
+                Lập hồ sơ nhập viện – phân khoa, phòng, giường
+            </div>
+        </div>
+    </div>
 
-    Khoa:
-    <select id="khoa" name="id_khoa" required></select><br><br>
+    <div class="panel">
 
-    Phòng:
-    <select id="phong" name="id_phong" required></select><br><br>
+        <form method="post">
 
-    Giường trống:
-    <select id="giuong" name="id_giuong" required></select><br><br>
+            <div class="form-grid">
 
-    Ngày giờ nhập viện:
-    <input type="datetime-local" name="ngay_nhap" required><br><br>
+                <!-- BỆNH NHÂN -->
+                <div class="field full">
+                    <label>Bệnh nhân</label>
+                    <select class="select" name="id_benh_nhan" required>
+                        <?php foreach ($benhnhans as $bn): ?>
+                        <option value="<?= $bn['id'] ?>">
+                            <?= e($bn['ma_bn'].' - '.$bn['ho_ten']) ?>
+                        </option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
 
-    Bác sĩ phụ trách:
-    <select name="bac_si_phu_trach">
-        <?php foreach ($bacsi as $bs): ?>
-        <option value="<?= $bs['id'] ?>">
-            <?= e($bs['full_name']) ?>
-        </option>
-        <?php endforeach; ?>
-    </select><br><br>
+                <!-- KHOA -->
+                <div class="field">
+                    <label>Khoa</label>
+                    <select class="select" name="id_khoa" id="khoa" required>
+                        <option value="">-- Chọn khoa --</option>
+                    </select>
+                </div>
 
-    Chẩn đoán ban đầu:
-    <textarea name="chan_doan_ban_dau"></textarea><br><br>
+                <!-- PHÒNG -->
+                <div class="field">
+                    <label>Phòng</label>
+                    <select class="select" name="id_phong" id="phong" required>
+                        <option value="">-- Chọn phòng --</option>
+                    </select>
+                </div>
 
-    <button>Lưu hồ sơ nhập viện</button>
+                <!-- GIƯỜNG -->
+                <div class="field">
+                    <label>Giường trống</label>
+                    <select class="select" name="id_giuong" id="giuong" required>
+                        <option value="">-- Chọn giường --</option>
+                    </select>
+                </div>
 
-</form>
+                <!-- NGÀY NHẬP -->
+                <div class="field">
+                    <label>Ngày giờ nhập viện</label>
+                    <input class="input" type="datetime-local" name="ngay_nhap" required>
+                </div>
 
-<script>
-const khoaData = <?= json_encode($khoa) ?>;
-const khoa = document.getElementById('khoa');
-const phong = document.getElementById('phong');
-const giuong = document.getElementById('giuong');
+                <!-- BÁC SĨ -->
+                <div class="field full">
+                    <label>Bác sĩ phụ trách</label>
+                    <select class="select" name="bac_si_phu_trach">
+                        <option value="">-- Chưa phân công --</option>
+                    </select>
+                </div>
 
-khoa.innerHTML = khoaData.map(k =>
-    `<option value="${k.id}">${k.ten_khoa}</option>`
-).join('');
+                <!-- CHẨN ĐOÁN -->
+                <div class="field full">
+                    <label>Chẩn đoán ban đầu</label>
+                    <textarea class="input" name="chan_doan_ban_dau" rows="3"
+                        placeholder="Nhập chẩn đoán ban đầu..."></textarea>
+                </div>
 
-khoa.onchange = () => {
-    fetch(`index.php?c=nhapvien&a=phong&id_khoa=${khoa.value}`)
-        .then(r => r.json())
-        .then(data => {
-            phong.innerHTML = data.map(p =>
-                `<option value="${p.id}">${p.ten_phong}</option>`
-            ).join('');
-            phong.onchange();
-        });
-};
+            </div>
 
-phong.onchange = () => {
-    fetch(`index.php?c=nhapvien&a=giuong&id_phong=${phong.value}`)
-        .then(r => r.json())
-        .then(data => {
-            giuong.innerHTML = data.map(g =>
-                `<option value="${g.id}">${g.ma_giuong}</option>`
-            ).join('');
-        });
-};
+            <!-- ACTIONS -->
+            <div class="actions" style="margin-top:18px;">
+                <button class="btn">💾 Tiếp nhận</button>
+                <a href="index.php?c=dieutri&a=list" class="btn-outline">
+                    Quay lại
+                </a>
+            </div>
 
-khoa.onchange();
-</script>
+        </form>
+
+    </div>

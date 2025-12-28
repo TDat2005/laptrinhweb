@@ -1,7 +1,7 @@
-        </div> <!-- main -->
-        </div> <!-- content -->
-        </div> <!-- wrapper -->
+    </main>
+    </div>
+    </div>
 
-        </body>
+    </body>
 
-        </html>
+    </html>
