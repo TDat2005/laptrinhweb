@@ -1,6 +1,7 @@
-<?php /** @var array $users */ /** @var string $msg */ 
+<?php /** @var array $users */ /** @var string $msg */ /** @var string $q */
 require __DIR__ . "/../layout/AdminHeader.php";
 ?>
+
 <!doctype html>
 <html lang="vi">
 
@@ -20,10 +21,27 @@ require __DIR__ . "/../layout/AdminHeader.php";
                 <div class="page-sub">Danh sách user, phân quyền và trạng thái</div>
             </div>
 
-            <div class="actions">
+            <div class="actions" style="display:flex; gap:10px; flex-wrap:wrap; align-items:center;">
+                <form method="get" action="<?= e(base_url('index.php')) ?>"
+                    style="display:flex; gap:10px; align-items:center;">
+                    <input type="hidden" name="c" value="user">
+                    <input type="hidden" name="a" value="list">
+
+                    <input class="input" name="q" value="<?= e($q ?? '') ?>"
+                        placeholder="Tìm username / họ tên / role / id / active / locked..." style="width:320px;">
+
+                    <button class="btn btn-outline" type="submit">Tìm</button>
+
+                    <?php if(!empty($q)): ?>
+                    <a class="btn btn-outline" href="<?= e(base_url('index.php?c=user&a=list')) ?>">X</a>
+                    <?php endif; ?>
+                </form>
+
                 <a class="btn" href="<?= e(base_url('index.php?c=user&a=add')) ?>">+ Thêm tài khoản</a>
                 <a class="btn btn-outline" href="<?= e(base_url('index.php')) ?>">Về dashboard</a>
             </div>
+
+
         </div>
 
         <?php if (!empty($msg)): ?>

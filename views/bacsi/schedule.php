@@ -1,16 +1,16 @@
 <?php /** @var array $bs */ /** @var string $ngay */ /** @var array $activeSlots */ /** @var array $bookedSlots */ ?>
 <?php require __DIR__ . "/../layout/AdminHeader.php"; ?>
 
-<!-- Bootstrap chỉ dùng cho MODAL -->
+<!-- bootstrap chỉ dùng cho MODAL + FORM (không đụng admin.css) -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
-
 <style>
-/* CHẶN BOOTSTRAP ĐÈ SIDEBAR */
+/* CHẶN BOOTSTRAP ĐÈ ADMIN SIDEBAR/NAV */
 .sidebar .nav,
 .sidebar .nav * {
     all: unset;
 }
 
+/* khôi phục lại style nav của admin.css (tối thiểu) */
 .sidebar .nav {
     display: block;
     list-style: none;
@@ -19,15 +19,16 @@
 }
 
 .sidebar .nav li {
+    display: block;
     margin-bottom: 6px;
 }
 
 .sidebar .nav a {
     display: block;
     padding: 10px 12px;
-    border-radius: 10px;
-    color: var(--text);
     text-decoration: none;
+    color: var(--text);
+    border-radius: 10px;
     font-size: 14px;
 }
 
@@ -36,91 +37,11 @@
     color: var(--primary);
 }
 
+/* chặn bootstrap đè body font/line-height quá mạnh (nhẹ thôi) */
 body {
     line-height: normal;
 }
-
-/* SLOT */
-.slot {
-    padding: 10px 12px;
-    border-radius: 12px;
-    border: 1px solid var(--border);
-    background: #fff;
-    font-weight: 800;
-    font-size: 13px;
-    min-width: 110px;
-    text-align: center;
-    cursor: pointer;
-    user-select: none;
-}
-
-.slot.on {
-    background: var(--primary-soft);
-    border-color: rgba(14, 165, 164, .35);
-    color: var(--primary);
-}
-
-.slot.off {
-    opacity: .45;
-    cursor: not-allowed;
-}
-
-/* INFO */
-.info-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 14px;
-    margin-top: 14px;
-}
-
-.info-item {
-    border: 1px solid var(--border);
-    border-radius: 14px;
-    padding: 12px 14px;
-    background: #fff;
-}
-
-.info-label {
-    font-size: 12px;
-    color: var(--muted);
-    font-weight: 700;
-    margin-bottom: 4px;
-}
-
-.info-value {
-    font-size: 14px;
-    font-weight: 800;
-    color: var(--text);
-}
-
-.divider {
-    height: 1px;
-    background: var(--border);
-    margin: 16px 0;
-}
-
-.desc-title {
-    font-weight: 800;
-    margin-bottom: 6px;
-}
-
-.desc-content {
-    font-size: 14px;
-    line-height: 1.6;
-    color: var(--text);
-}
-
-@media (max-width:900px) {
-    .grid {
-        grid-template-columns: 1fr !important;
-    }
-
-    .info-grid {
-        grid-template-columns: 1fr;
-    }
-}
 </style>
-
 <div class="page" style="max-width:1200px;margin:0 auto;">
 
     <div class="page-head" style="justify-content:flex-start; align-items:flex-start; gap:12px; flex-wrap:wrap;">
@@ -128,6 +49,7 @@ body {
             <div class="page-title"><?= e($bs['full_name'] ?? 'Chi tiết bác sĩ') ?></div>
             <div class="page-sub"><?= e($bs['gioi_thieu_ngan'] ?? '') ?></div>
         </div>
+
         <div class="actions" style="margin-left:0;">
             <a class="btn btn-outline" href="<?= e(base_url('index.php?c=bacsi&a=list')) ?>">← Danh sách</a>
         </div>
@@ -141,8 +63,7 @@ body {
     <?php endif; ?>
 
     <div class="grid" style="grid-template-columns:360px 1fr; align-items:start;">
-
-        <!-- LEFT: LỊCH -->
+        <!-- LEFT -->
         <div class="card">
             <div style="font-weight:800;">Lịch khám</div>
 
@@ -160,48 +81,39 @@ body {
             </div>
         </div>
 
-        <!-- RIGHT: THÔNG TIN -->
+        <!-- RIGHT -->
         <div class="card">
-
-            <div style="display:flex;flex-wrap:wrap;gap:8px;">
-                <span class="tag" style="font-weight:800;">
-                    <?= e($bs['chuyen_khoa'] ?? 'Chưa cập nhật chuyên khoa') ?>
-                </span>
-                <span class="tag" style="font-weight:800;">
-                    Giá khám: <?= number_format((int)($bs['gia_kham'] ?? 0)) ?>đ
-                </span>
+            <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;">
+                <span class="tag"><?= e($bs['chuyen_khoa'] ?? 'Chưa cập nhật chuyên khoa') ?></span>
+                <span class="tag">Giá khám: <?= number_format((int)($bs['gia_kham'] ?? 0)) ?>đ</span>
             </div>
 
-            <div class="info-grid">
-                <div class="info-item">
-                    <div class="info-label">Bệnh viện</div>
-                    <div class="info-value"><?= e($bs['benh_vien'] ?? '-') ?></div>
+            <div style="margin-top:14px; display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+                <div>
+                    <div class="card label">Bệnh viện</div>
+                    <div style="font-weight:700;margin-top:6px;"><?= e($bs['benh_vien'] ?? '-') ?></div>
                 </div>
-                <div class="info-item">
-                    <div class="info-label">Phòng khám</div>
-                    <div class="info-value"><?= e($bs['phong_kham'] ?? '-') ?></div>
+                <div>
+                    <div class="card label">Phòng khám</div>
+                    <div style="font-weight:700;margin-top:6px;"><?= e($bs['phong_kham'] ?? '-') ?></div>
                 </div>
-                <div class="info-item">
-                    <div class="info-label">Tỉnh thành</div>
-                    <div class="info-value"><?= e($bs['tinh_thanh'] ?? '-') ?></div>
+                <div>
+                    <div class="card label">Tỉnh thành</div>
+                    <div style="font-weight:700;margin-top:6px;"><?= e($bs['tinh_thanh'] ?? '-') ?></div>
                 </div>
             </div>
 
-            <div class="divider"></div>
+            <div style="height:1px;background:var(--border);margin:14px 0;"></div>
 
-            <div class="desc">
-                <div class="desc-title">Mô tả</div>
-                <div class="desc-content">
-                    <?= nl2br(e($bs['mo_ta_chi_tiet'] ?? 'Chưa có mô tả.')) ?>
-                </div>
-            </div>
-
+            <div style="font-weight:800;margin-bottom:6px;">Mô tả</div>
+            <div><?= nl2br(e($bs['mo_ta_chi_tiet'] ?? 'Chưa có mô tả.')) ?></div>
         </div>
     </div>
+
 </div>
 
-<!-- MODAL ĐẶT LỊCH -->
-<div class="modal fade" id="bookModal" tabindex="-1">
+<!-- MODAL đặt lịch: bootstrap handle -->
+<div class="modal fade" id="bookModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered">
         <div class="modal-content" style="border-radius:16px;">
             <div class="modal-header">
@@ -211,7 +123,7 @@ body {
                         <?= e($bs['full_name'] ?? '') ?> • <span id="mNgay"></span> • <span id="mSlot"></span>
                     </div>
                 </div>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
 
             <form method="post" action="<?= e(base_url('index.php?c=lichhen&a=create')) ?>">
@@ -269,6 +181,38 @@ body {
     </div>
 </div>
 
+<style>
+.slot {
+    padding: 10px 12px;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    background: #fff;
+    font-weight: 800;
+    font-size: 13px;
+    min-width: 110px;
+    text-align: center;
+    cursor: pointer;
+    user-select: none;
+}
+
+.slot.on {
+    background: var(--primary-soft);
+    border-color: rgba(14, 165, 164, .35);
+    color: var(--primary);
+}
+
+.slot.off {
+    opacity: .45;
+    cursor: not-allowed;
+}
+
+@media (max-width: 900px) {
+    .grid {
+        grid-template-columns: 1fr !important;
+    }
+}
+</style>
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
 <script>
@@ -279,32 +223,42 @@ const bookedSlots = <?= json_encode($bookedSlots ?? []) ?>;
 function renderSlots(active, booked) {
     const wrap = document.getElementById('slotWrap');
     wrap.innerHTML = '';
+
     active.forEach(slot => {
-        const d = document.createElement('div');
-        d.className = 'slot on';
-        d.textContent = slot;
+        const div = document.createElement('div');
+        div.className = 'slot on';
+        div.textContent = slot;
+
         if (booked.includes(slot)) {
-            d.className = 'slot off';
-            d.title = 'Đã có người đặt';
-        } else d.onclick = () => openModal(slot);
-        wrap.appendChild(d);
+            div.className = 'slot off';
+            div.title = 'Đã có người đặt';
+        } else {
+            div.onclick = () => openModal(slot);
+        }
+        wrap.appendChild(div);
     });
-    if (!active.length) wrap.innerHTML =
-        '<div style="font-size:13px;color:var(--muted);">Chưa có lịch cho ngày này.</div>';
+
+    if (active.length === 0) {
+        wrap.innerHTML = '<div style="font-size:13px;color:var(--muted);">Chưa có lịch cho ngày này.</div>';
+    }
 }
 
 function openModal(slot) {
     const ngay = document.getElementById('ngay').value;
+
     document.getElementById('mNgay').textContent = ngay;
     document.getElementById('mSlot').textContent = slot;
+
     document.getElementById('fNgay').value = ngay;
     document.getElementById('fSlot').value = slot;
+
     bootstrap.Modal.getOrCreateInstance(document.getElementById('bookModal')).show();
 }
 
 async function loadSlots() {
     const ngay = document.getElementById('ngay').value;
-    const res = await fetch(`index.php?c=bacsi&a=slots&id=${doctorId}&ngay=${encodeURIComponent(ngay)}`);
+    const url = `index.php?c=bacsi&a=slots&id=${doctorId}&ngay=${encodeURIComponent(ngay)}`;
+    const res = await fetch(url);
     const data = await res.json();
     renderSlots(data.active || [], data.booked || []);
 }

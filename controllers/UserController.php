@@ -1,23 +1,34 @@
 <?php
+
 class UserController {
 
     public function list(): void {
-        require_role(['admin']);
-        $users = User::all();
-        $msg = $_GET['msg'] ?? '';
-        render('user/list', ['users' => $users, 'msg' => $msg]);
-    }
+    require_role(['admin']);
+
+    $q = trim($_GET['q'] ?? '');
+    $msg = $_GET['msg'] ?? '';
+
+    $users = ($q !== '') ? User::search($q) : User::all();
+
+    render('user/list', [
+        'users' => $users,
+        'msg'   => $msg,
+        'q'     => $q
+    ]);
+}
+
 
     public function add(): void {
         require_role(['admin']);
 
         $errors = [];
-        $old = ['username'=>'','full_name'=>'','role'=>'reception','status'=>1];
+        // default role = patient (không còn reception)
+        $old = ['username'=>'','full_name'=>'','role'=>'patient','status'=>1];
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $username = trim($_POST['username'] ?? '');
             $fullName = trim($_POST['full_name'] ?? '');
-            $role     = trim($_POST['role'] ?? 'reception');
+            $role     = trim($_POST['role'] ?? 'patient');
             $status   = (int)($_POST['status'] ?? 1);
             $password = trim($_POST['password'] ?? '');
             $confirm  = trim($_POST['confirm_password'] ?? '');
@@ -28,7 +39,8 @@ class UserController {
                 $errors[] = "Vui lòng nhập đầy đủ Username, Họ tên, Mật khẩu.";
             }
 
-            $validRoles = ['admin','doctor','nurse','reception'];
+            // CHỈ 3 role
+            $validRoles = ['admin','doctor','patient'];
             if (!in_array($role, $validRoles, true)) {
                 $errors[] = "Role không hợp lệ.";
             }
@@ -76,7 +88,7 @@ class UserController {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $username = trim($_POST['username'] ?? '');
             $fullName = trim($_POST['full_name'] ?? '');
-            $role     = trim($_POST['role'] ?? 'reception');
+            $role     = trim($_POST['role'] ?? 'patient');
             $status   = (int)($_POST['status'] ?? 1);
 
             $old = ['username'=>$username,'full_name'=>$fullName,'role'=>$role,'status'=>$status];
@@ -85,7 +97,8 @@ class UserController {
                 $errors[] = "Username và Họ tên không được để trống.";
             }
 
-            $validRoles = ['admin','doctor','nurse','reception'];
+            // CHỈ 3 role
+            $validRoles = ['admin','doctor','patient'];
             if (!in_array($role, $validRoles, true)) {
                 $errors[] = "Role không hợp lệ.";
             }

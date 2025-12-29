@@ -93,4 +93,27 @@ class User {
         $stmt->bind_param("i", $id);
         return $stmt->execute();
     }
+    public static function search(string $q): array {
+    $conn = DB::conn();
+
+    // chống wildcard bậy bạ
+    $q = str_replace(['%', '_'], ['\\%','\\_'], $q);
+    $like = "%{$q}%";
+
+    $sql = "SELECT id, username, full_name, role, status, created_at
+            FROM users
+            WHERE username LIKE ? ESCAPE '\\'
+               OR full_name LIKE ? ESCAPE '\\'
+               OR role LIKE ? ESCAPE '\\'
+               OR CAST(id AS CHAR) LIKE ? ESCAPE '\\'
+            ORDER BY id DESC";
+
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("ssss", $like, $like, $like, $like);
+    $stmt->execute();
+
+    $res = $stmt->get_result();
+    return $res ? $res->fetch_all(MYSQLI_ASSOC) : [];
+}
+
 }

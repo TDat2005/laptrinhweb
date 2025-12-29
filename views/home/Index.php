@@ -1,173 +1,165 @@
-<?php /** @var array $user */ ?>
-<!doctype html>
-<html lang="vi">
+<?php
+// views/home/index.php
+require_once __DIR__ . '/../layout/AdminHeader.php';
 
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Dashboard</title>
-    <link rel="stylesheet" href="<?= e(base_url('public/css/admin.css')) ?>">
-</head>
+// $user đã có từ AdminHeader.php (current_user + require_login)
+$role = $user['role'] ?? '';
 
-<body>
+if ($role !== 'admin') {
+    // doctor/patient không được vào dashboard admin
+    if ($role === 'doctor') {
+        redirect(base_url('index.php?c=bacsi&a=profile'));
+    }
+    if ($role === 'patient') {
+        redirect(base_url('index.php?c=patientHome&a=index'));
+    }
+    redirect(base_url('index.php?c=auth&a=login'));
+}
+?>
 
-    <div class="shell">
-        <!-- SIDEBAR giữ như mày đang làm -->
-        <aside class="sidebar">
-            <div class="brand">
-                <div class="title">CLINIC ADMIN</div>
-                <div class="sub">Quản lý nội trú</div>
+<!-- ========== ADMIN DASHBOARD (ONLY) ========== -->
+<div class="page">
+
+    <div class="page-head" style="justify-content:flex-start;align-items:flex-start;gap:12px;flex-wrap:wrap;">
+        <div>
+            <div class="page-title">Dashboard quản trị nội trú</div>
+            <div class="page-sub">
+                Xin chào <b><?= e($user['full_name'] ?? '') ?></b> — quản lý khoa/phòng/giường, nhập viện, điều trị và
+                xuất viện.
             </div>
+        </div>
 
-            <ul class="nav">
-                <li><a href="<?= e(base_url('index.php?c=user&a=list')) ?>">Quản lý tài khoản</a></li>
-                <li><a href="<?= e(base_url('index.php?c=khoa&a=list')) ?>">Quản lý khoa</a></li>
-                <li><a href="<?= e(base_url('index.php?c=phong&a=list')) ?>">Quản lý phòng</a></li>
-                <li><a href="<?= e(base_url('index.php?c=giuong&a=list')) ?>">Quản lý giường</a></li>
-
-
-                <li><a class="quick" href="<?= e(base_url('index.php?c=benhnhan&a=list')) ?>">Bệnh nhân</a></li>
-                <li><a class="quick" href="<?= e(base_url('index.php?c=nhapvien&a=add')) ?>">Nhập viện</a></li>
-                <li><a class="quick" href="<?= e(base_url('index.php?c=giuong&a=available')) ?>">Giường trống</a></li>
-                <li><a class="quick" href="<?= e(base_url('index.php?c=dieutri&a=list')) ?>">Điều trị</a></li>
-                <?php if ($user['role'] === 'admin'): ?>
-                <li class="nav-sep"></li>
-                <li><a href="<?= e(base_url('index.php?c=thongke&a=index')) ?>">Thống kê & Báo cáo</a></li>
-                <?php endif; ?>
-
-                <li class="nav-sep"></li>
-                <li><a href="<?= e(base_url('index.php?c=auth&a=logout')) ?>">Đăng xuất</a></li>
-            </ul>
-        </aside>
-
-        <div class="content">
-            <header class="topbar">
-                <div>
-                    <div class="title">Xin chào, <?= e($user['full_name']) ?></div>
-                    <div class="sub">Hệ thống quản lý bệnh nhân nội trú</div>
-                </div>
-                <div class="user-box"><?= e($user['role']) ?></div>
-            </header>
-
-            <main class="main">
-                <section class="banner">
-                    <div class="banner-bg"></div>
-
-                    <div class="banner-content">
-                        <h1>Nền tảng quản lý nội trú</h1>
-                        <p>
-                            Hệ thống quản lý bệnh nhân nội trú toàn diện:
-                            nhập viện – điều trị – xuất viện – giường – khoa – phòng.
-                        </p>
-
-                        <div class="banner-actions">
-                            <a href="<?= e(base_url('index.php?c=benhnhan&a=list')) ?>">Bệnh nhân</a>
-                            <a class="alt" href="<?= e(base_url('index.php?c=nhapvien&a=add')) ?>">Nhập viện</a>
-                            <a class="alt" href="<?= e(base_url('index.php?c=giuong&a=available')) ?>">Giường trống</a>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- HERO như vibe Booking Clinic -->
-                <section class="hero">
-                    <div class="hero-top">
-                        <div>
-                            <h1>Nền tảng nội trú — quản lý điều trị toàn diện</h1>
-                            <p>
-                                Tìm nhanh chức năng theo nghiệp vụ: bệnh nhân, nhập viện, giường trống, điều trị và xuất
-                                viện.
-                                Giao diện gọn – rõ – đúng quy trình.
-                            </p>
-                        </div>
-
-                        <div class="search">
-                            <input placeholder="Tìm chức năng… (ví dụ: bệnh nhân, giường, khoa)">
-                            <span class="chip">Search</span>
-                        </div>
-                    </div>
-
-                    <!-- quick actions dạng icon -->
-                    <div class="quickbar">
-                        <a class="qitem" href="<?= e(base_url('index.php?c=benhnhan&a=list')) ?>">
-                            <div class="qicon">BN</div>
-                            <div class="t">Bệnh nhân</div>
-                        </a>
-                        <a class="qitem" href="<?= e(base_url('index.php?c=nhapvien&a=add')) ?>">
-                            <div class="qicon">NV</div>
-                            <div class="t">Nhập viện</div>
-                        </a>
-                        <a class="qitem" href="<?= e(base_url('index.php?c=dieutri&a=list')) ?>">
-                            <div class="qicon">DT</div>
-                            <div class="t">Điều trị</div>
-                        </a>
-                        <a class="qitem" href="<?= e(base_url('index.php?c=xuatvien&a=list')) ?>">
-                            <div class="qicon">XV</div>
-                            <div class="t">Xuất viện</div>
-                        </a>
-                        <a class="qitem" href="<?= e(base_url('index.php?c=giuong&a=list')) ?>">
-                            <div class="qicon">G</div>
-                            <div class="t">Giường</div>
-                        </a>
-                        <a class="qitem" href="<?= e(base_url('index.php?c=giuong&a=available')) ?>">
-                            <div class="qicon">Ø</div>
-                            <div class="t">Giường trống</div>
-                        </a>
-                    </div>
-                </section>
-
-                <!-- SECTION giống vibe ảnh (cards) -->
-                <section class="section">
-                    <div class="section-head">
-                        <div class="section-title">Nghiệp vụ phổ biến</div>
-                        <a class="section-more" href="<?= e(base_url('index.php')) ?>">Xem thêm</a>
-                    </div>
-
-                    <div class="cards">
-                        <a class="cardx" href="<?= e(base_url('index.php?c=benhnhan&a=list')) ?>">
-                            <div class="thumb"></div>
-                            <div class="body">
-                                <p class="name">Danh sách bệnh nhân</p>
-                                <p class="meta">Quản lý hồ sơ, thông tin và trạng thái.</p>
-                            </div>
-                        </a>
-
-                        <a class="cardx" href="<?= e(base_url('index.php?c=nhapvien&a=add')) ?>">
-                            <div class="thumb"></div>
-                            <div class="body">
-                                <p class="name">Tiếp nhận / Nhập viện</p>
-                                <p class="meta">Tạo hồ sơ nhập viện nhanh theo khoa/phòng.</p>
-                            </div>
-                        </a>
-
-                        <a class="cardx" href="<?= e(base_url('index.php?c=dieutri&a=list')) ?>">
-                            <div class="thumb"></div>
-                            <div class="body">
-                                <p class="name">Bệnh nhân điều trị</p>
-                                <p class="meta">Theo dõi diễn biến và xử lý điều trị.</p>
-                            </div>
-                        </a>
-
-                        <a class="cardx" href="<?= e(base_url('index.php?c=xuatvien&a=list')) ?>">
-                            <div class="thumb"></div>
-                            <div class="body">
-                                <p class="name">Xuất viện</p>
-                                <p class="meta">Hoàn tất hồ sơ và cập nhật giường trống.</p>
-                            </div>
-                        </a>
-                        <a class="cardx" href="<?= e(base_url('index.php?c=dieutri&a=list')) ?>">
-                            <div class="thumb"></div>
-                            <div class="body">
-                                <p class="name">Danh sách bệnh nhân đang điều trị</p>
-                                <p class="meta">TEST</p>
-                            </div>
-                        </a>
-                    </div>
-                </section>
-
-            </main>
+        <div class="actions" style="margin-left:0;">
+            <a class="btn btn-outline" href="<?= e(base_url('index.php?c=auth&a=logout')) ?>">Đăng xuất</a>
         </div>
     </div>
 
-</body>
+    <!-- Banner ảnh (dùng đúng admin.css: panel) -->
+    <section class="panel" style="padding:0;overflow:hidden;">
+        <div style="
+        height:220px;
+        border-radius:18px;
 
-</html>
+        background:
+            linear-gradient(
+                to right,
+                rgba(0,0,0,.15),
+                rgba(0,0,0,.05)
+            ),
+            url('<?= e(base_url('public/css/banner.jpg')) ?>');
+
+        background-size:cover;
+        background-position:center;
+        background-repeat:no-repeat;
+    ">
+            <!-- KHÔNG CÓ CHỮ -->
+        </div>
+    </section>
+
+
+
+    <!-- Quick actions -->
+    <div class="grid" style="grid-template-columns:repeat(3,1fr);margin-top:14px;">
+        <div class="card">
+            <div class="label">Nghiệp vụ</div>
+            <div class="value">Bệnh nhân</div>
+            <div class="label" style="margin-top:6px;">Quản lý hồ sơ, thông tin và trạng thái.</div>
+            <a href="<?= e(base_url('index.php?c=benhnhan&a=list')) ?>">Mở danh sách →</a>
+        </div>
+
+        <div class="card">
+            <div class="label">Nghiệp vụ</div>
+            <div class="value">Nhập viện</div>
+            <div class="label" style="margin-top:6px;">Tiếp nhận nội trú theo khoa/phòng/giường.</div>
+            <a href="<?= e(base_url('index.php?c=nhapvien&a=add')) ?>">Tạo hồ sơ nhập viện →</a>
+        </div>
+
+        <div class="card">
+            <div class="label">Nghiệp vụ</div>
+            <div class="value">Giường trống</div>
+            <div class="label" style="margin-top:6px;">Xem nhanh giường còn trống theo phòng.</div>
+            <a href="<?= e(base_url('index.php?c=giuong&a=available')) ?>">Xem giường trống →</a>
+        </div>
+
+        <div class="card">
+            <div class="label">Quản trị</div>
+            <div class="value">Khoa / Phòng / Giường</div>
+            <div class="label" style="margin-top:6px;">Cấu hình danh mục và cơ sở vật chất.</div>
+            <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:10px;">
+                <a class="btn btn-outline" href="<?= e(base_url('index.php?c=khoa&a=list')) ?>">Khoa</a>
+                <a class="btn btn-outline" href="<?= e(base_url('index.php?c=phong&a=list')) ?>">Phòng</a>
+                <a class="btn btn-outline" href="<?= e(base_url('index.php?c=giuong&a=list')) ?>">Giường</a>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="label">Quản lý</div>
+            <div class="value">Lịch làm việc</div>
+            <div class="label" style="margin-top:6px;">Quản lý slot làm việc của bác sĩ.</div>
+            <a href="<?= e(base_url('index.php?c=adminSchedule&a=index')) ?>">Quản lý lịch làm việc →</a>
+        </div>
+
+        <div class="card">
+            <div class="label">Báo cáo</div>
+            <div class="value">Thống kê</div>
+            <div class="label" style="margin-top:6px;">Xem báo cáo, thống kê theo thời gian.</div>
+            <a href="<?= e(base_url('index.php?c=thongke&a=index')) ?>">Mở thống kê →</a>
+        </div>
+    </div>
+
+    <!-- Bảng lối tắt (dùng panel + tbl trong admin.css) -->
+    <div class="panel" style="margin-top:14px;">
+        <div class="page-title" style="font-size:15px;">Lối tắt nghiệp vụ</div>
+        <div class="page-sub">Các chức năng hay dùng nhất cho admin.</div>
+
+        <div class="tbl-wrap" style="margin-top:12px;">
+            <table class="tbl">
+                <thead>
+                    <tr>
+                        <th style="width:260px;">Nhóm</th>
+                        <th>Chức năng</th>
+                        <th style="width:220px;">Đi tới</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td style="font-weight:800;">Tài khoản</td>
+                        <td>Quản lý user, role (admin/doctor/patient), trạng thái</td>
+                        <td>
+                            <a class="btn btn-outline" href="<?= e(base_url('index.php?c=user&a=list')) ?>">Mở</a>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td style="font-weight:800;">Bác sĩ</td>
+                        <td>Danh sách & chỉnh thông tin bác sĩ (chuyên khoa, giá khám,...)</td>
+                        <td>
+                            <a class="btn btn-outline" href="<?= e(base_url('index.php?c=bacsi&a=manage')) ?>">Mở</a>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td style="font-weight:800;">Điều trị</td>
+                        <td>Danh sách bệnh nhân đang điều trị, cập nhật tiến trình</td>
+                        <td>
+                            <a class="btn btn-outline" href="<?= e(base_url('index.php?c=dieutri&a=list')) ?>">Mở</a>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td style="font-weight:800;">Xuất viện</td>
+                        <td>Hoàn tất hồ sơ, giải phóng giường, cập nhật trạng thái</td>
+                        <td>
+                            <a class="btn btn-outline" href="<?= e(base_url('index.php?c=xuatvien&a=list')) ?>">Mở</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div style="height:10px;"></div>
+
+</div>
+
+<?php require __DIR__ . '/../layout/AdminFooter.php'; ?>

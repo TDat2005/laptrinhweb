@@ -2,9 +2,13 @@
 $errMsg = '';
 if (!empty($err)) {
   if ($err === 'missing') $errMsg = 'Vui lòng nhập đầy đủ tài khoản và mật khẩu.';
-  else $errMsg = 'Tài khoản hoặc mật khẩu không đúng.';
+  elseif ($err === 'wrong_password') $errMsg = 'Sai mật khẩu.';
+  elseif ($err === 'invalid') $errMsg = 'Sai tài khoản hoặc tài khoản bị khóa.';
+  elseif ($err === 'registered') $errMsg = 'Đăng ký thành công, mời đăng nhập.';
+  else $errMsg = 'Có lỗi xảy ra, vui lòng thử lại.';
 }
 ?>
+
 <!doctype html>
 <html lang="vi">
 

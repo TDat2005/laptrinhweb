@@ -50,7 +50,7 @@ require __DIR__ . "/../layout/AdminHeader.php";
                         <label>Role</label>
                         <select class="select" name="role">
                             <?php
-              $roles = ['admin'=>'Admin','doctor'=>'Doctor','nurse'=>'Nurse','reception'=>'Reception'];
+              $roles = ['admin'=>'Admin','doctor'=>'Doctor','patient'=>'Patient'];
               $oldRole = $old['role'] ?? 'reception';
               foreach ($roles as $k=>$v):
             ?>
